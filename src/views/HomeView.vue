@@ -1,18 +1,25 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container px-8 py-4 text-center">
+    <SingleProject :lists="lists"/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import SingleProject from '@/components/SingleProject.vue'
+import getLists from '@/composables/getLists'
 
 export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
-  }
+  name: 'Home',
+  components: {SingleProject},
+
+  setup() {
+    const { load, lists } = getLists();
+
+    load();
+
+    return {lists}
 }
+}
+
+
 </script>

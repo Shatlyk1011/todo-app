@@ -1,7 +1,8 @@
 <template>
-  <div class="container px-8 py-4 text-center">
-    <SingleProject :lists="lists"/>
+  <div class="container px-8 py-4 text-center w-1/3">
+    <SingleProject :lists="lists" :error="error"/>
   </div>
+  
 </template>
 
 <script>
@@ -13,11 +14,11 @@ export default {
   components: {SingleProject},
 
   setup() {
-    const { load, lists } = getLists();
+    const { load, lists, error } = getLists();
 
     load();
 
-    return {lists}
+    return {lists, error}
 }
 }
 

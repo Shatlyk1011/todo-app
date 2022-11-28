@@ -1,21 +1,23 @@
 import { ref } from "vue";
 import { projectFirestore } from "@/firebase/config";
 
-export const getLists = () => {
+const getLists = () => {
   const lists = ref([]);
   const error = ref(null);
 
   const load = async () => {
     try {
-      const res = await projectFirestore
+      await projectFirestore
         .collection("lists")
         .orderBy("createdAt", "desc")
-        .get();
-      console.log(res.docs);
-      lists.value = res.docs.map((doc) => {
-        console.log(doc.id);
-        return { ...doc.data(), id: doc.id };
-      });
+        .onSnapshot((snap) => {
+          console.log("snapshot");
+          let list = snap.docs.map((doc) => {
+            console.log(doc.data());
+            return doc.data() && { ...doc.data(), id: doc.id };
+          });
+          lists.value = list;
+        });
     } catch {
       error.value = "Что то пошло не так, попробуйте перезагрузить страницу...";
     }

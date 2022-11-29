@@ -1,5 +1,5 @@
 <template>
-  <nav class=" mx-auto flex justify-center items-center text-xl mt-6 gap-6 px-8 text-gray-500 uppercase">
+  <nav class="nav" >
     <router-link :to="{name: 'Home'}">Список</router-link>
     <router-link :to="{name: 'AddList'}">Добавить</router-link>
   </nav>
@@ -8,9 +8,22 @@
 <script>
 </script>
 
-<style scoped>
+<style ang="scss" scoped>
+.nav {
+  margin: 1.5rem auto 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  color: rgb(107 114 128);
+  text-transform: uppercase;
+}
+
  .router-link-active {
-  @apply text-[#011627]
+  color: #011627;
  }
 
 </style>

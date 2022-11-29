@@ -11,3 +11,12 @@ html {
   margin: 0;
   font-family: "Roboto", sans-serif;
 }
+
+.error {
+  text-align: center;
+  margin: 10px 0;
+  color: rgb(255, 42, 42);
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.25rem;
+}

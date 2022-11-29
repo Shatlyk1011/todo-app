@@ -1,30 +1,53 @@
 <template>
-  <div v-for="list in lists" :key="list.id" class="inline-block mx-auto w-full bg-zinc-100 mb-5 border-l-[6px] border-transparent" :class="{activeBorder: list.complete }" >
+  <div class="lists" v-for="list in lists" :key="list.id"  :class="{activeBorder: list.complete }" >
     <SingleList :list="list"/>
   </div>
+  <div class="error">{{error}}</div>
 
   <router-link v-if="!lists.length" to="/add">
-      <button class="px-4 py-2 rounded-full bg-zinc-600 hover:bg-zinc-700 mt-2 text-white text-xs  uppercase">Добавить список </button>
+      <button class="btn">Добавить список </button>
   </router-link>
-  
-  <div class="text-center mt-6 text-red-400 font-medium text-sm "> {{ error }}</div>
 </template>
 
 <script>
-import Spinner from '@/components/Spinner.vue'
 import SingleList from '@/components/SingleList.vue'
-import { Suspense } from 'vue';
 
 export default {
   name: 'MultipleLists',
   props: ['lists', 'error'],
-  components: { Spinner, SingleList, Suspense },
+  components: { SingleList },
 }
+
   
 </script>
 
-<style scoped>
+<style  lang="scss" scoped>
+.lists {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+  width: 100%;
+  background-color: rgb(244 244 245);
+  border-left: 6px solid transparent;
+  padding: 1.5rem 2rem;
+}
+.btn {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  background-color: rgb(82 82 91 );
+  color: #fff;
+
+  &:hover {
+    background-color: rgb(63 63 70);
+  }
+}
+
 .activeBorder {
-  @apply bg-green-300 border-l-green-500 !important
+  background-color: rgb(134 239 172);
+  border-left-color: rgb(34 197 94);
 }
 </style>

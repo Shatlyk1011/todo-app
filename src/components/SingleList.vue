@@ -1,21 +1,25 @@
 <template>
-<div class="list-container" >
-  <div class="list">
-    <div class="list__title">{{list.title}}</div>
-    <div class="list__body">{{list.body}}</div>
-    <div class="list__created">Создано {{list.createdAt}} назад</div>
+<div class="lists" :class="{activeBorder: list.complete }" >
+  <div class="list-container" >
+    <div class="list">
+      <div class="list__title">{{list.title}}</div>
+      <div class="list__body">{{list.body}}</div>
+      <div class="list__created">Создано {{list.createdAt}} назад</div>
+    </div>
+    <!-- icons -->
+    <div class="icons">
+      <ion-icon @click="handleDone" class="icon" name="checkmark-done-outline"></ion-icon>
+      <router-link :to="{name: 'EditView', params: {id:list.id}}">
+        <ion-icon  class="icon" name="create-outline"></ion-icon>
+      </router-link>
+      <ion-icon @click="deleteMe"  class="icon" name="trash-outline"></ion-icon>
+    </div>
   </div>
-  <!-- icons -->
-  <div class="icons">
-    <ion-icon @click="handleDone" class="icon" name="checkmark-done-outline"></ion-icon>
-    <router-link :to="{name: 'EditView', params: {id:list.id}}">
-      <ion-icon  class="icon" name="create-outline"></ion-icon>
-    </router-link>
-    <ion-icon @click="deleteMe"  class="icon" name="trash-outline"></ion-icon>
-  </div>
+  <div class="error">{{listError}}</div>
+
+  <img class="img" v-show="list.imgUrl" :src="list.imgUrl" alt="Image">
+  <div class="error">{{error}}</div>
 </div>
-<img class="img" v-show="list.imgUrl" :src="list.imgUrl" alt="Image">
-<div class="error">{{error}}</div>
 </template>
 
 <script>
@@ -24,11 +28,12 @@ import { delList } from '@/composables/deleteList'
 
 export default {
   name: 'SingleList',
-  props: ['list'],
+  props: ['list', 'listError'],
 
   setup(props) {
   /* Удалить */
   const {deleteMe, error} = delList(props.list.id)
+  console.log(props.list)
 
   /* Обновить задачу (done/undone) */
   const handleDone = () => { 
@@ -43,6 +48,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.lists {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+  width: 100%;
+  background-color: rgb(244 244 245);
+  border-left: 6px solid transparent;
+  padding: 1.5rem 2rem;
+}
+
+
 .list-container {
   display: flex;
   gap: 1.5rem;
@@ -106,6 +124,10 @@ export default {
   background-position: center;
   object-fit: cover;
   padding-top: 10px;
+}
+.activeBorder {
+  background-color: rgb(134 239 172);
+  border-left-color: rgb(34 197 94);
 }
 
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="w-full py-4 px-8 flex justify-center">
-    <form @submit.prevent="createList" class="flex flex-col justify-center items-start gap-4 w-1/3">
+    <form @submit.prevent="sendData" class="flex flex-col justify-center items-start gap-4 w-1/3">
       <label for="title">Загаловок:</label>
       <input v-model.trim="title" class="w-full py-1 px-2 border border-zinc-400 outline-none" type="text" id="title" required>
       <label for="body">Описание:</label>
@@ -25,38 +25,58 @@ export default {
   setup () {
     const title = ref('')
     const body = ref('')
-    let dropzoneFile = ref('')
+    const dropzoneFile = ref('')
+    const imgUrl = ref('')
   
 
     /* Dropzone */
-    const drop = (e) => {
+    const drop = async (e) => {
       console.log( e.dataTransfer.files[0])
-      dropzoneFile.value = e.dataTransfer.files[0] //our dropped file (?)
+      dropzoneFile.value = e.dataTransfer.files[0]
+      
+      // const storage =  firebase.storage();
+      // const storageRef = await storage.ref('images/' + dropzoneFile.value.name);
+
     }
     const selectedFile = () => {
       dropzoneFile.value = document.querySelector('.dropzoneFile').files[0]
     }
 
-    /* Добавить в список новую задачу */
-    const createList = async () => {
+    const newList = async () => {
       if(title.value !== '' && body.value !== '') {
-
-        const newList = {
+        const newList = await {
           title: title.value,
           body: body.value,
           createdAt: timestamp(),
-          complete: false
+          complete: false,
+          imgUrl: imgUrl.value,
         }
         await projectFirestore.collection('lists').add(newList)
-        // Dropzone file
-        const storageRef = firebase.storage().ref('images/' + dropzoneFile.value.name);
-        storageRef.put(dropzoneFile.value)
-        console.log('file uploaded')
+
         router.push({name: 'Home'})
       }
     }
+
+    /* Добавить в список новую задачу */
+    const sendData = async () => {
+      const storage = firebase.storage();
+      const storageRef = storage.ref('images/' + dropzoneFile.value.name);
+      
+      // Отправка фото 
+      await storageRef.put(dropzoneFile.value)
+      console.log('file uploaded')
+      await storageRef.getDownloadURL().then((url) => {
+      console.log(url)
+      imgUrl.value = url
+      newList()
+      }
+      )
+    }
+
+
  
-    return {title, body, createList, dropzoneFile, drop, selectedFile}
+    return {title, body, sendData, dropzoneFile, selectedFile, drop}
   }
 }
+
 </script>

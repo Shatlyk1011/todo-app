@@ -3,7 +3,7 @@
 <div class="flex flex-col justify-start items-start gap-4 text-start w-full">
   <div class="text-2xl font-medium border-b border-zinc-700 w-full ">{{list.title}}</div>
   <div class="text-xl">{{list.body}}</div>
-  <div class="text-xs font-medium text-black w-1/2">Создано {{list.createdAt}} назад</div>
+  <div class="text-xs  text-gray-500">Создано {{list.createdAt}} назад</div>
 </div>
 <!-- icons -->
 <div class="flex flex-col items-end justify-center m-0 p-0 gap-2 ">
@@ -13,11 +13,11 @@
   </router-link>
   <ion-icon @click="deleteList"  class="icons" name="trash-outline"></ion-icon>
 </div>
+<img :src="list.imgUrl" alt="">
 </template>
 
 <script>
-
-import { projectFirestore, firebase } from '@/firebase/config';
+import { projectFirestore, } from '@/firebase/config';
 
 export default {
   name: 'SingleList',
@@ -32,23 +32,12 @@ export default {
       console.log(err)
     }
   }
-  /* Задача выполнена */
+  /* Обновить задачу (done/undone) */
   const handleDone = () => { 
     projectFirestore.collection('lists').doc(props.list.id).get().then((doc) => { doc.ref.update({complete: !doc.data().complete })})
   }
-/* .... */
-  const imgArr = []
-  const storageRef = firebase.storage().ref();
-  const forestRef = storageRef.child('images/Screenshot_2222.png')
-  forestRef.listAll().then((res)=> {
-    res.items.forEach((itemRef) => {
-      console.log(itemRef.location.bucket + '/Screenshot_2222.png')
-    })
-  })
-  /* .... */
-
   
-    return {deleteList, handleDone, imgArr  }
+    return {deleteList, handleDone  }
   }
 
 }

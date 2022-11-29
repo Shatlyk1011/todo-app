@@ -3,10 +3,10 @@
 
 <form v-if="oneList" @submit.prevent="createList" class="flex flex-col justify-center items-start gap-4 w-1/3">
   <label for="title">Загаловок:</label>
-  <input :placeholder="oneList.title" v-model="title" class="w-full py-1 px-2 border border-zinc-400 outline-none" type="text" id="title" minlength="3" required>
+  <input :placeholder="oneList.title" v-model="title" class="w-full py-1 px-2 border border-zinc-400 outline-none" type="text" id="title" required>
   <h1>{{oneList.title}}</h1>
   <label for="body">Описание:</label>
-  <textarea :placeholder="oneList.body" minlength="5" v-model = "body" class="outline-none border border-zinc-400 w-full py-1 px-2 h-24" id="body"></textarea>
+  <textarea :placeholder="oneList.body" v-model = "body" class="outline-none border border-zinc-400 w-full py-1 px-2 h-24" id="body"></textarea>
   <button @click="handleUpdate" class="bg-zinc-600 px-6 py-3 rounded-full hover:bg-zinc-700 transition duration-150 text-white">Сохранить</button>
 </form>
  <div v-else> {{error}}</div>

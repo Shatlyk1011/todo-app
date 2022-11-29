@@ -11,9 +11,7 @@ const getLists = () => {
         .collection("lists")
         .orderBy("createdAt", "desc")
         .onSnapshot((snap) => {
-          console.log("snapshot");
           let list = snap.docs.map((doc) => {
-            console.log(doc.data());
             return doc.data() && { ...doc.data(), id: doc.id };
           });
           lists.value = list;

@@ -1,6 +1,6 @@
 <template>
   <div  class="inline-block mx-auto w-full">
-    <div v-if="lists.length" v-for="list in lists" :key="list.id" class="px-6 py-3 bg-zinc-100 text-zinc-800 rounded-sm flex gap-6 justify-between mb-5 border-l-[6px] border-transparent" :class="{activeColor: list.complete }">
+    <div v-if="lists.length" v-for="list in lists" :key="list.id" class=" px-6 py-3 bg-zinc-100 text-zinc-800 rounded-sm flex gap-6 justify-between mb-5 border-l-[6px] border-transparent min-h-[150px]" :class="{activeColor: list.complete }">
     <SingleList :list="list"/>
   </div>
   <div v-else>

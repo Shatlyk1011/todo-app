@@ -1,13 +1,9 @@
 <template>
 
-<div class="flex flex-col justify-start items-start gap-4 text-start">
+<div class="flex flex-col justify-start items-start gap-4 text-start w-full">
   <div class="text-2xl font-medium border-b border-zinc-700 w-full ">{{list.title}}</div>
   <div class="text-xl">{{list.body}}</div>
-  <div class="flex gap-4 mt-8">
-    <div class="bg-zinc-200 px-2 py-1 rounded-sm " :class="{activeColor: list.complete}" v-for="file in list.files">
-      {{file}}
-    </div>
-  </div>
+  <div class="text-xs font-medium text-black w-1/2">Создано {{list.createdAt}} назад</div>
 </div>
 <!-- icons -->
 <div class="flex flex-col items-end justify-center m-0 p-0 gap-2 ">
@@ -20,8 +16,9 @@
 </template>
 
 <script>
-import { projectFirestore } from '@/firebase/config';
-import {ref} from 'vue'
+
+import { projectFirestore, firebase } from '@/firebase/config';
+
 export default {
   name: 'SingleList',
   props: ['list'],
@@ -37,9 +34,21 @@ export default {
   }
   /* Задача выполнена */
   const handleDone = () => { 
-    projectFirestore.collection('lists').doc(props.list.id).get().then((doc) => { doc.ref.update({complete: !doc.data().complete }).then(console.log(doc.data()))})
+    projectFirestore.collection('lists').doc(props.list.id).get().then((doc) => { doc.ref.update({complete: !doc.data().complete })})
   }
-    return {deleteList, handleDone }
+/* .... */
+  const imgArr = []
+  const storageRef = firebase.storage().ref();
+  const forestRef = storageRef.child('images/Screenshot_2222.png')
+  forestRef.listAll().then((res)=> {
+    res.items.forEach((itemRef) => {
+      console.log(itemRef.location.bucket + '/Screenshot_2222.png')
+    })
+  })
+  /* .... */
+
+  
+    return {deleteList, handleDone, imgArr  }
   }
 
 }

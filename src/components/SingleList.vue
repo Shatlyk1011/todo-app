@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { projectFirestore, } from '@/firebase/config';
+import { projectFirestore } from '@/firebase/config';
 import { delList } from '@/composables/deleteList'
 
 export default {

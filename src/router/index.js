@@ -1,18 +1,18 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import AddList from "../views/AddList.vue";
+import AddListView from "../views/AddListView.vue";
 import EditView from "@/views/EditView.vue";
 
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "HomeView",
     component: HomeView,
   },
   {
     path: "/add",
-    name: "AddList",
-    component: AddList,
+    name: "AddListView",
+    component: AddListView,
   },
   {
     path: "/edit/:id",

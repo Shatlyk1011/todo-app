@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { projectFirestore } from "@/firebase/config";
 
 const getList = (id) => {
-  const oneList = ref(null);
+  const listCollection = ref(null);
   const error = ref(null);
 
   const load = async () => {
@@ -11,12 +11,12 @@ const getList = (id) => {
       if (!response.exists) {
         throw Error("Такого списка не существует");
       }
-      oneList.value = { ...response.data(), id: response.id };
+      listCollection.value = { ...response.data(), id: response.id };
     } catch (err) {
       console.log(err);
     }
   };
-  return { load, oneList, error };
+  return { load, listCollection, error };
 };
 
 export default getList;

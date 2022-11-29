@@ -1,5 +1,5 @@
 <template>
-  <div class="container px-8 py-4 text-center w-1/3">
+  <div class="hero-container ">
     <MultipleLists :lists="formattedDoc" :error="error"/>
   </div>
   
@@ -14,20 +14,21 @@ import {ru} from 'date-fns/locale'
 import {computed} from 'vue'
 
 export default {
-  name: 'Home',
+  name: 'HomeView',
   components: {MultipleLists},
 
   setup() {
-    const { load, lists, error } =  getLists();
+  const { load, lists, error } =  getLists();
 
-    /* Formatting time using date-fns */
-    const formattedDoc = computed(() => {
-      if(lists.value) {
-        return lists.value.map(list => {
-          let newTime = formatDistance(list.createdAt.toDate(), new Date(), {locale: ru})
-          return { ...list, createdAt: newTime}
-        })
-      }
+  /* Formatting time using date-fns */
+  const formattedDoc = computed(() => {
+    if(lists.value) {
+      return lists.value.map(list => {
+        let newTime = formatDistance(list.createdAt && list.createdAt.toDate(), new Date(), {locale: ru})
+        console.log('toDate: функция для перевода firestore timestamp на обычное время')
+        return { ...list, createdAt: newTime}
+      })
+    }
   })
 
     load();
@@ -38,3 +39,28 @@ export default {
 
 
 </script>
+
+<style lang="scss" >
+  .hero-container {
+    width: 40%;
+    margin: 0 auto;
+    padding: 1.5rem 0;
+    text-align: center;
+
+    @media(max-width: 1200px) {
+      width: 50%;
+    }
+    @media(max-width: 950px) {
+      width: 60%;
+    }
+    @media(max-width: 750px) {
+      width: 75%;
+    }
+    @media(max-width: 550px) {
+      width: 100%;
+      padding: 1.5rem 2rem;
+      
+    }
+
+  }
+</style>

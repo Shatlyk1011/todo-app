@@ -1,7 +1,7 @@
 <template>
   <nav class="nav" >
-    <router-link :to="{name: 'Home'}">Список</router-link>
-    <router-link :to="{name: 'AddList'}">Добавить</router-link>
+    <router-link :to="{name: 'HomeView'}">Список</router-link>
+    <router-link :to="{name: 'AddListView'}">Добавить</router-link>
   </nav>
 </template>
 

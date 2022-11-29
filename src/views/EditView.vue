@@ -1,28 +1,27 @@
 <template>
-<div class="w-full py-4 px-8 flex justify-center">
-  <form v-if="oneList" @submit.prevent="createList" class="flex flex-col justify-center items-start gap-4 w-1/3">
+<div class="edit" >
+  <form class="form" v-if="listCollection" @submit.prevent="createList" >
     <label for="title">Загаловок:</label>
-    <input :placeholder="oneList.title" v-model="title" class="w-full py-1 px-2 border border-zinc-400 outline-none" type="text" id="title" required>
-    <h1>{{oneList.title}}</h1>
+    <input :placeholder="listCollection.title" v-model="title" type="text" id="title" required>
+    <h1>{{listCollection.title}}</h1>
     <label for="body">Описание:</label>
-    <textarea :placeholder="oneList.body" v-model = "body" class="outline-none border border-zinc-400 w-full py-1 px-2 h-24" id="body"></textarea>
+    <textarea :placeholder="listCollection.body" v-model = "body" id="body"></textarea>
     
     <Dropzone @drop.prevent="drop" @change="selectedFile"/>
-    <div class="-m-2 mx-auto">Загружено: {{oneList.imgName }} <br> Для изменения выберите новое фото</div>
+    <div class="dropzone-sub">Для изменения фото выберите новое </div>
     
-    <button @click="handleUpdate" class="bg-zinc-600 px-6 py-3 rounded-full hover:bg-zinc-700 transition duration-150 text-white">Сохранить</button>
+    <button @click="handleUpdate">Сохранить</button>
   </form>
-  <div v-else> {{error}}</div>
+  <div v-else class="error"> {{error}}</div>
 </div>  
 </template>
 
 <script>
 import Dropzone from '@/components/Dropzone.vue'
 import getList from '@/composables/getList'
-import { projectFirestore } from '@/firebase/config';
-import firebase from "firebase/app";
-import {useRoute, useRouter} from 'vue-router';
-import {ref} from 'vue'
+import updateList from '@/composables/updateList'
+import {drop, selectedFile} from '@/composables/dropZone'
+import {useRoute} from 'vue-router';
 
 export default {
   name: 'EditView',
@@ -30,12 +29,8 @@ export default {
   components: {Dropzone},
   setup () {
     const route = useRoute();
-    const router = useRouter();
-    const { load, oneList, error} =  getList(route.params.id) 
-    const title = ref('')
-    const body = ref('')
-    const dropzoneFile = ref('')
-    const imgUrl = ref('')
+    const { load, listCollection, error} =  getList(route.params.id) 
+    const {handleUpdate, title, body, dropzoneFile} = updateList(route.params.id)
     load()
 
     const drop = async (e) => {
@@ -46,21 +41,53 @@ export default {
       dropzoneFile.value = document.querySelector('.dropzoneFile').files[0]
     }
 
-    // update data
-    const handleUpdate = async () => {
-      const storage = firebase.storage();
-      const storageRef = storage.ref('images/' + dropzoneFile.value.name);
-      await storageRef.put(dropzoneFile.value)
-      console.log('file uploaded')
-      await storageRef.getDownloadURL().then((url) => {
-      console.log(url)
-      imgUrl.value = url
-    })
-
-      projectFirestore.collection('lists').doc(route.params.id).update({title: title.value, body: body.value, imgUrl: imgUrl.value,})     
-        router.push('/')
-      }
-    return {oneList, error, handleUpdate, title, body, drop, selectedFile}
+    return {listCollection, error, handleUpdate, title, body, drop, selectedFile}
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.edit {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem 2rem;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 33.333333%;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 5px 10px;
+    border: 1px solid rgb(161 161 170);
+    outline: none;
+  }
+
+  textarea {
+    height: 6rem;
+  }
+
+  button {
+    background-color: rgb(82 82 91);
+    padding: 12px 1.5rem;
+    border-radius: 9999px;
+    transition: all 0.15s;
+    color: #fff;
+
+    &:hover {
+      background-color: rgb(63 63 70)
+    }
+  }
+}
+
+.dropzone-sub {
+  margin: 0 auto;
+  margin-top: -0.5rem;
+}
+</style>

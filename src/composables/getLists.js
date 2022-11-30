@@ -1,6 +1,7 @@
 import { ref, watchEffect } from "vue";
 import { projectFirestore } from "@/firebase/config";
 
+/* Получить список листов */
 const getLists = () => {
   const lists = ref([]);
   const error = ref(null);

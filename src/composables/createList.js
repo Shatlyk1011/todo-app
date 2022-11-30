@@ -20,7 +20,7 @@ export const createList = () => {
 
   /* Объект нового листа */
   const newList = () => {
-    if (title.value !== "" && body.value !== "") {
+    if (title.value !== "") {
       const newList = {
         title: title.value,
         body: body.value,
@@ -45,7 +45,7 @@ export const createList = () => {
       });
     }
     newList();
-    /* Clear poles */
+    // Очистить поля
     title.value = "";
     body.value = "";
     dropzoneFile.value = "";

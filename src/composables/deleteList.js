@@ -1,5 +1,6 @@
 import { projectFirestore } from "@/firebase/config";
 import { ref } from "vue";
+
 const error = ref("");
 
 export const delList = (id) => {

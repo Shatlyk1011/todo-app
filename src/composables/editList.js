@@ -8,11 +8,13 @@ const dropzoneFile = ref("");
 const imgUrl = ref("");
 const storageRef = storage.ref("images/" + dropzoneFile.value.name);
 
+/* Обновить лист */
 const updateList = (id) => {
   const handleUpdate = async () => {
     if (dropzoneFile.value !== "") {
+      // Обновить фото
       await storageRef.put(dropzoneFile.value);
-
+      //Обновить url
       await storageRef.getDownloadURL().then((url) => {
         imgUrl.value = url;
       });
@@ -23,10 +25,11 @@ const updateList = (id) => {
       body: body.value,
       imgUrl: imgUrl.value,
     });
+    // Очистить поля
+    router.push({ name: "HomeView", params: id });
     title.value = "";
     body.value = "";
     dropzoneFile.value = "";
-    router.push({ name: "HomeView", params: id });
   };
 
   return { handleUpdate, title, body, dropzoneFile, imgUrl };

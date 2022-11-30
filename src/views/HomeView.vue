@@ -1,7 +1,7 @@
 <template>
   <div class="hero-container ">
     <div v-if="formattedDoc.length">
-      <transition-group tag="div" name="disper">
+      <transition-group tag="div" name="disper" >
         <div v-for="list in formattedDoc" :key="list.id">
           <SingleList :list="list" :listError="error"/>
         </div>
@@ -118,5 +118,8 @@ export default {
 
 .disper-enter-active {
   transition: all 0.4s ease-in;
+}
+.disper-move {
+  transition: all 0.4 ease;
 }
 </style>

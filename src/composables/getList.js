@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import { projectFirestore } from "@/firebase/config";
 
+/* Получить один лист */
 const getList = (id) => {
   const listCollection = ref(null);
   const error = ref(null);

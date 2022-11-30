@@ -15,14 +15,11 @@
 import Dropzone from '@/components/Dropzone.vue'
 import {createList} from '@/composables/createList' 
 
-
 export default {
   name: 'add',
   components: {Dropzone},
   setup () {
     const { sendData, dropzoneFile, title, body, imgUrl, drop, selectedFile } = createList();
-
-
 
       return {sendData, dropzoneFile, title, body, imgUrl, drop, selectedFile }
    }

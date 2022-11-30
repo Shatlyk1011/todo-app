@@ -36,11 +36,12 @@ export default {
 
   /* Обновить задачу (done/undone) */
   const handleDone = () => { 
-    projectFirestore.collection('lists').doc(props.list.id).get().then((doc) => { doc.ref.update({complete: !doc.data().complete })})
+    projectFirestore.collection('lists').doc(props.list.id).get().then((doc) => {
+      doc.ref.update({complete: !doc.data().complete })
+    })
   }
     return { handleDone, deleteMe, error  }
   }
-
 }
 
 

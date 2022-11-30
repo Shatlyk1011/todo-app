@@ -8,7 +8,7 @@
     <span>Перетащите</span>
     <span>или</span>
     <label for="dropzoneFile">Выберите фото</label>
-    <input type="file" id="dropzoneFile" class="dropzoneFile" accept="image/*"> <!-- accept all types of image -->
+    <input type="file" id="dropzoneFile" class="dropzoneFile" accept="image/*">
   </div>
 </template>
 

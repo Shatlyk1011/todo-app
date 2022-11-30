@@ -20,6 +20,7 @@
 import Dropzone from '@/components/Dropzone.vue'
 import getList from '@/composables/getList'
 import editList from '@/composables/editList'
+
 import {useRoute} from 'vue-router';
 import {onMounted} from 'vue'
 import { projectFirestore } from "@/firebase/config";
@@ -33,7 +34,7 @@ export default {
     const { load, listCollection, error} =  getList(route.params.id) 
     const {handleUpdate, title, body, dropzoneFile, imgUrl} = editList(route.params.id)
     load()
-
+    
     onMounted(async () => {
       const res = await projectFirestore.collection("lists").doc(route.params.id).get();
       title.value = res.data().title;

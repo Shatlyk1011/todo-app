@@ -1,4 +1,5 @@
 # hh-todo
+## web link: https://todo-list-92d50.web.app/#/
 
 ## Project setup
 ```
@@ -14,6 +15,3 @@ npm run serve
 ```
 npm run build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

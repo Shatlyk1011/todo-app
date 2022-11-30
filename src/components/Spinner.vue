@@ -8,7 +8,7 @@ export default {};
 
 <style>
 .spin {
-    display: block;
+    display: inline-block;
     width: 40px;
     height: 40px;
     margin: 30px auto;

@@ -10,6 +10,9 @@
         <button class="btn">Добавить список </button>
       </router-link>
     </div>
+    <div v-else>
+      <Spinner/>
+    </div>
   </div>
   
 </template>
@@ -17,6 +20,7 @@
 <script>
 import SingleList from '@/components/SingleList.vue'
 import getLists from '@/composables/getLists'
+import Spinner from '@/components/Spinner.vue'
 import { formatDistance } from 'date-fns';
 
 import {ru} from 'date-fns/locale'
@@ -25,7 +29,7 @@ import {computed} from 'vue'
 
 export default {
   name: 'HomeView',
-  components: {SingleList},
+  components: {SingleList, Spinner},
 
   setup() {
   const { load, lists, error } =  getLists();
@@ -88,6 +92,18 @@ export default {
   }
 }
 
+.disper-enter-from {
+  opacity: 0;
+  transform: scale(0.6);
+}
+.disper-enter-to {
+  opacity: 1;
+}
+
+.disper-leave-active {
+  transition: all 0.4s ease;
+}
+
 .disper-leave-from {
   opacity: 1;
 }
@@ -97,6 +113,10 @@ export default {
 }
 
 .disper-leave-active {
-  transition: all 0.4s ease;
+  transition: all 0.4s ease-out;
+}
+
+.disper-enter-active {
+  transition: all 0.4s ease-in;
 }
 </style>

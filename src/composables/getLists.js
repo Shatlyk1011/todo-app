@@ -1,26 +1,26 @@
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { projectFirestore } from "@/firebase/config";
 
 const getLists = () => {
   const lists = ref([]);
   const error = ref(null);
 
-  const load = async () => {
-    try {
-      await projectFirestore
-        .collection("lists")
-        .orderBy("createdAt", "desc")
-        .onSnapshot((snap) => {
-          let list = snap.docs.map((doc) => {
-            console.log(doc);
-            return doc.data().createdAt && { ...doc.data(), id: doc.id };
-          });
-          lists.value = list;
-        });
-    } catch {
-      error.value = "Что то пошло не так, попробуйте перезагрузить страницу...";
-    }
+  const load = () => {
+    const collectionRef = projectFirestore
+      .collection("lists")
+      .orderBy("createdAt", "desc");
+    const unsub = collectionRef.onSnapshot((snap) => {
+      let list = [];
+      snap.docs.map((doc) => {
+        doc.data().createdAt && list.push({ ...doc.data(), id: doc.id });
+      });
+      lists.value = list;
+    });
+    watchEffect((onInvalidate) => {
+      onInvalidate(() => unsub);
+    });
   };
+
   return { load, lists, error };
 };
 

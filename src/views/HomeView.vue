@@ -6,12 +6,12 @@
           <SingleList :list="list" :listError="error"/>
         </div>
       </transition-group>
-      <router-link v-show="!formattedDoc.length" to="/add">
+      
+    </div>
+    <div v-if="!formattedDoc.length">
+      <router-link to="/add">
         <button class="btn">Добавить список </button>
       </router-link>
-    </div>
-    <div v-else>
-      <Spinner/>
     </div>
   </div>
   
@@ -117,7 +117,7 @@ export default {
 }
 
 .disper-enter-active {
-  transition: all 0.4s ease-in;
+  transition: all 0.4s ease-out;
 }
 .disper-move {
   transition: all 0.4 ease;

@@ -14,20 +14,16 @@
 <script>
 import Dropzone from '@/components/Dropzone.vue'
 import {createList} from '@/composables/createList' 
-// import {drop, selectedFile} from '@/composables/dropZone'
+
 
 export default {
   name: 'add',
   components: {Dropzone},
   setup () {
     const { sendData, dropzoneFile, title, body, imgUrl, drop, selectedFile } = createList();
-    /* const drop = (e) => {
-      console.log( e.dataTransfer.files[0])
-      dropzoneFile.value = e.dataTransfer.files[0]
-    }
-    const selectedFile = () => {
-      dropzoneFile.value = document.querySelector('.dropzoneFile').files[0]
-    } */
+
+
+
       return {sendData, dropzoneFile, title, body, imgUrl, drop, selectedFile }
    }
 }

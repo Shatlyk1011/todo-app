@@ -1,6 +1,6 @@
 import { projectFirestore, timestamp, storage } from "@/firebase/config";
 import router from "@/router";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
 const title = ref("");
 const body = ref("");
@@ -10,15 +10,15 @@ const dropzoneFile = ref("");
 const storageRef = storage.ref("images/" + dropzoneFile.value.name);
 
 export const createList = () => {
-  /*  */
+  /* Dropzone файлы  */
   const drop = async (e) => {
-    console.log(e.dataTransfer.files[0]);
     dropzoneFile.value = e.dataTransfer.files[0];
   };
   const selectedFile = () => {
     dropzoneFile.value = document.querySelector(".dropzoneFile").files[0];
   };
-  /*  */
+
+  /* Объект нового листа */
   const newList = () => {
     if (title.value !== "" && body.value !== "") {
       const newList = {
@@ -38,15 +38,13 @@ export const createList = () => {
     // Отправка фото
     if (dropzoneFile.value !== "") {
       await storageRef.put(dropzoneFile.value);
-      console.log("file uploaded");
+      console.log("Загружено");
 
       await storageRef.getDownloadURL().then((url) => {
-        console.log(url);
         imgUrl.value = url;
       });
     }
     newList();
-    console.log(new Date());
     /* Clear poles */
     title.value = "";
     body.value = "";

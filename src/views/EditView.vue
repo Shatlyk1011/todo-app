@@ -19,9 +19,10 @@
 <script>
 import Dropzone from '@/components/Dropzone.vue'
 import getList from '@/composables/getList'
-import updateList from '@/composables/updateList'
-import {drop, selectedFile} from '@/composables/dropZone'
+import editList from '@/composables/editList'
 import {useRoute} from 'vue-router';
+import {onMounted} from 'vue'
+import { projectFirestore } from "@/firebase/config";
 
 export default {
   name: 'EditView',
@@ -30,18 +31,24 @@ export default {
   setup () {
     const route = useRoute();
     const { load, listCollection, error} =  getList(route.params.id) 
-    const {handleUpdate, title, body, dropzoneFile} = updateList(route.params.id)
+    const {handleUpdate, title, body, dropzoneFile, imgUrl} = editList(route.params.id)
     load()
 
+    onMounted(async () => {
+      const res = await projectFirestore.collection("lists").doc(route.params.id).get();
+      title.value = res.data().title;
+      body.value = res.data().body;
+      imgUrl.value = res.data().imgUrl;
+  });
+
     const drop = async (e) => {
-      console.log( e.dataTransfer.files[0])
       dropzoneFile.value = e.dataTransfer.files[0]
     }
     const selectedFile = () => {
       dropzoneFile.value = document.querySelector('.dropzoneFile').files[0]
     }
 
-    return {listCollection, error, handleUpdate, title, body, drop, selectedFile}
+    return {listCollection, error, handleUpdate, title, body, drop, selectedFile, imgUrl}
   }
 }
 </script>

@@ -17,7 +17,7 @@
 <script>
 import SingleList from '@/components/SingleList.vue'
 import getLists from '@/composables/getLists'
-import { formatDistance, formatRelative } from 'date-fns';
+import { formatDistance } from 'date-fns';
 
 import {ru} from 'date-fns/locale'
 
@@ -30,17 +30,18 @@ export default {
   setup() {
   const { load, lists, error } =  getLists();
 
-  /* Formatting time using date-fns */
+  /* Форматируем время используя date-fns */
+  const date = new Date()
   const formattedDoc = computed(() => {
     if(lists.value) {
       return lists.value.map(list => {
-        let newTime = formatDistance(list.createdAt.toDate(), new Date(), {locale: ru})
+        let newFormat = Number(list.createdAt.toDate())
+        let newTime = formatDistance(newFormat, date, {locale: ru})
 
         return { ...list, createdAt: newTime}
       })
     }
   })
-
     load();
 
     return {lists, error, formattedDoc}

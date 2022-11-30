@@ -13,7 +13,7 @@ const getList = (id) => {
       }
       listCollection.value = { ...response.data(), id: response.id };
     } catch (err) {
-      console.log(err);
+      error.value = err.message;
     }
   };
   return { load, listCollection, error };

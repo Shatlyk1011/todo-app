@@ -12,7 +12,8 @@ const getLists = () => {
         .orderBy("createdAt", "desc")
         .onSnapshot((snap) => {
           let list = snap.docs.map((doc) => {
-            return doc.data() && { ...doc.data(), id: doc.id };
+            console.log(doc);
+            return doc.data().createdAt && { ...doc.data(), id: doc.id };
           });
           lists.value = list;
         });

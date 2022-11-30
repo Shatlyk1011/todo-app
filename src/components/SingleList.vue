@@ -33,7 +33,6 @@ export default {
   setup(props) {
   /* Удалить */
   const {deleteMe, error} = delList(props.list.id)
-  console.log(props.list)
 
   /* Обновить задачу (done/undone) */
   const handleDone = () => { 
